@@ -10,11 +10,15 @@ from statistics import mean
 import pandas as pd
 
 # تحميل نموذج معالجة اللغة العربية
+import subprocess
+
 try:
     nlp = spacy.load("ar_core_news_sm")
-except:
-    st.warning("يجب تثبيت نموذج اللغة العربية أولاً: python -m spacy download ar_core_news_sm")
-    nlp = None
+except OSError:
+    with st.spinner("📦 جاري تحميل نموذج اللغة العربية..."):
+        subprocess.run(["python", "-m", "spacy", "download", "ar_core_news_sm"])
+    nlp = spacy.load("ar_core_news_sm")
+
 
 st.set_page_config(page_title="SEO Advanced Document Optimizer", layout="wide", page_icon="🔍")
 
