@@ -2,3 +2,4 @@ streamlit
 python-docx
 pandas
 spacy
+spacy-arabic-models
