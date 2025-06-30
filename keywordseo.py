@@ -10,11 +10,19 @@ from statistics import mean
 import pandas as pd
 
 # محاولة تحميل نموذج اللغة العربية
-try:
-    nlp = spacy.load("ar_core_news_sm")
-except OSError:
-    st.error("❌ لم يتم تحميل نموذج اللغة العربية. تأكد من وجوده ضمن المتطلبات (spacy-arabic-models).")
-    nlp = None
+import subprocess
+import importlib.util
+
+def ensure_arabic_model():
+    try:
+        return spacy.load("ar_core_news_sm")
+    except OSError:
+        with st.spinner("📥 تحميل نموذج اللغة العربية..."):
+            subprocess.run(["python", "-m", "spacy", "download", "ar_core_news_sm"])
+            return spacy.load("ar_core_news_sm")
+
+nlp = ensure_arabic_model()
+
 
 st.set_page_config(page_title="SEO Advanced Document Optimizer", layout="wide", page_icon="🔍")
 
